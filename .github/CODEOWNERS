@@ -1,0 +1,11 @@
+# Core engine
+/src/graphfusion/core/ @core-team-lead
+
+# Engine components
+/src/graphfusion/engine/ @engine-team-lead
+
+# Storage systems
+/src/graphfusion/storage/ @storage-team-lead
+
+# Documentation
+/docs/ @tech-writers
