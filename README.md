@@ -45,7 +45,7 @@ Follow these instructions to set up the GraphFusion Core for development and tes
 
 ### Basic Usage
 
-Below is a simple example of how to use the core components of GraphFusion:
+Below is a simple example of how the core components of GraphFusion will be used to store and retrieve data from memory:
 
 ```python
 from graphfusion.core.graph import Graph
