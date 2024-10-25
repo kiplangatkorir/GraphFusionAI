@@ -10,7 +10,7 @@ Thank you for your interest in contributing to the GraphFusion Core project! Thi
 4. [Development Workflow](#development-workflow)
 5. [Coding Standards](#coding-standards)
 6. [Testing](#testing)
-7. [Documentation](#documentation)
+7. [Documentation](#Documentation)
 
 ---
 
