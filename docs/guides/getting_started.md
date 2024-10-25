@@ -1,4 +1,3 @@
-```markdown
 # Getting Started with GraphFusion Core
 
 Welcome to the GraphFusion Core repository! This guide will help you set up your development environment, understand the repository structure, and run basic tests to ensure everything is working as expected.
@@ -111,4 +110,4 @@ For more detailed guidelines, refer to `CONTRIBUTING.md`.
 ---
 
 That's it! You're ready to start exploring and contributing to GraphFusion Core. If you have any questions, please reach out via our [GitHub Discussions](https://github.com/graphfusion/graphfusion-core/discussions).
-```
+
