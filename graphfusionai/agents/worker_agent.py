@@ -1,22 +1,21 @@
-# graphfusionai/agents/worker_agent.py
-import torch
-import torch.nn as nn
 from .base_agent import BaseAgent
 
 class WorkerAgent(BaseAgent):
-    def __init__(self, input_dim, memory_dim, context_dim, action_dim):
-        super().__init__(input_dim, memory_dim, context_dim)
-        
-        self.action_net = nn.Sequential(
-            nn.Linear(memory_dim, memory_dim),
-            nn.ReLU(),
-            nn.Linear(memory_dim, action_dim),
-            nn.Tanh()  # or other activation depending on action space
-        )
-        
-    def decide_action(self, state):
-        return self.action_net(state)
-
-    def update(self, reward):
-        # Implement learning logic here
-        pass
+    def process_input(self, input_data: str) -> None:
+        """
+        Processes specific tasks using the provided data.
+        """
+        print(f"[Worker {self.name}] Processing input: {input_data}")
+    
+    def decide(self, input_data: str) -> str:
+        """
+        Simple decision-making for task-specific actions.
+        """
+        print(f"[Worker {self.name}] Deciding next action for: {input_data}")
+        return f"Action based on {input_data}"
+    
+    def communicate(self, other_agent: "BaseAgent", message: str) -> None:
+        """
+        Communicates with another agent.
+        """
+        print(f"[Worker {self.name}] Sending message to {other_agent.name}: {message}")
