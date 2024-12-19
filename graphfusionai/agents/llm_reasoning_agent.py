@@ -7,7 +7,7 @@ class LLMReasoningAgent(BaseAgent):
                  name: str, 
                  graph_network, 
                  knowledge_graph, 
-                 model_name: str = "bigscience/bloom-560m"):
+                 model_name: str = "gpt2"):
         """
         Initialize the LLM Reasoning Agent with a Hugging Face model.
         """
