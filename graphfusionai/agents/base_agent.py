@@ -1,32 +1,41 @@
-# graphfusionai/agents/base_agent.py
+from typing import Any, Dict, List, Optional
+from graphfusionai.core.graph import GraphNetwork
+from graphfusionai.core.knowledge_graph import KnowledgeGraph
+from graphfusionai.core.dynamicmemory_cell import DynamicMemoryCell
 import torch
-import torch.nn as nn
-from ..core.graph import GraphNetwork
-from ..core.dynamicmemory_cell import DynamicMemoryCell
 
-class BaseAgent(nn.Module):
-    def __init__(self, input_dim, memory_dim, context_dim):
-        super().__init__()
-        self.memory = DynamicMemoryCell(input_dim, memory_dim, context_dim)
-        self.state = None
-        self.memory_state = torch.zeros(memory_dim)
-        
-    def process_observation(self, observation):
-        # Convert observation to tensor if needed
-        if not isinstance(observation, torch.Tensor):
-            observation = torch.tensor(observation, dtype=torch.float32)
-            
-        # Update memory with new observation
-        self.memory_state, attention = self.memory(
-            observation,
-            self.memory_state
+class BaseAgent:
+    def __init__(self, name: str, graph_network: GraphNetwork, knowledge_graph: KnowledgeGraph):
+        self.name = name
+        self.graph_network = graph_network
+        self.knowledge_graph = knowledge_graph
+        self.memory_cell = DynamicMemoryCell(
+            input_dim=256, memory_dim=512, context_dim=128
         )
-        return self.memory_state, attention
 
-    def decide_action(self, state):
-        raise NotImplementedError("Subclasses must implement decide_action")
+    def process_input(self, input_data: Any) -> Dict[str, torch.Tensor]:
+        """
+        Abstract method to process input data. Must be implemented in derived classes.
+        """
+        raise NotImplementedError
 
-    def act(self, observation):
-        state, _ = self.process_observation(observation)
-        action = self.decide_action(state)
-        return action
+    def update_graph(self, updates: List[Dict[str, Any]]) -> None:
+        """
+        Update the knowledge graph based on new information.
+        """
+        for update in updates:
+            self.knowledge_graph.add_relation(
+                update['from'], update['to'], update['relation'], update.get('features')
+            )
+
+    def decide(self, input_data: Any) -> Any:
+        """
+        Abstract method for decision-making. Must be implemented in derived classes.
+        """
+        raise NotImplementedError
+
+    def communicate(self, other_agent: "BaseAgent", message: Any) -> None:
+        """
+        Abstract method for inter-agent communication.
+        """
+        raise NotImplementedError
