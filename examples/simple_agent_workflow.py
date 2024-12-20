@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 import torch
 from graphfusionai.agents import WorkerAgent, ManagerAgent
-from graphfusionai.core import GraphNetwork
+from graphfusionai.core.graph import GraphNetwork
 
 def main():
     # Initialize dimensions
