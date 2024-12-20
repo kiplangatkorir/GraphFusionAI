@@ -1,27 +1,92 @@
-from typing import List, Dict
+"""
+llm_tools.py
+Utility functions for interacting with LLMs.
+"""
 
-def truncate_text(text: str, max_length: int) -> str:
-    """
-    Truncate text to a specified maximum length.
-    """
-    if len(text) > max_length:
-        return text[:max_length] + "..."
-    return text
+from typing import List, Tuple, Dict
 
-def format_input_for_llm(prompt: str, context: str = "") -> str:
-    """
-    Format input by combining context and prompt for LLM reasoning.
-    """
-    return f"Context:\n{context}\n\nPrompt:\n{prompt}"
 
-def extract_key_points(text: str) -> List[str]:
+def truncate_prompt(prompt: str, max_tokens: int) -> str:
     """
-    Extract key points from a response.
-    """
-    return [line.strip() for line in text.split("\n") if line.strip()]
+    Truncate a prompt to fit within a specified token limit.
+    
+    Args:
+        prompt (str): The text to truncate.
+        max_tokens (int): Maximum number of tokens allowed.
 
-def validate_response(response: str, required_keywords: List[str] = []) -> bool:
+    Returns:
+        str: The truncated prompt.
     """
-    Validate an LLM response to ensure it contains specific required keywords.
+    return prompt[:max_tokens]
+
+
+def split_prompt(prompt: str, chunk_size: int) -> List[str]:
     """
-    return all(keyword in response for keyword in required_keywords)
+    Split a long prompt into smaller chunks.
+
+    Args:
+        prompt (str): The input text to split.
+        chunk_size (int): The size of each chunk in tokens.
+
+    Returns:
+        List[str]: A list of prompt chunks.
+    """
+    return [prompt[i:i + chunk_size] for i in range(0, len(prompt), chunk_size)]
+
+
+def construct_chat_prompt(history: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    """
+    Construct a chat-compatible prompt from a message history.
+
+    Args:
+        history (List[Dict[str, str]]): A list of dictionaries representing the conversation history,
+                                        e.g., [{"role": "user", "content": "Hi"}, {"role": "assistant", "content": "Hello"}]
+
+    Returns:
+        List[Dict[str, str]]: Formatted history suitable for chat-based LLMs.
+    """
+    return [{"role": entry["role"], "content": entry["content"]} for entry in history]
+
+
+def parse_response(response: Dict) -> str:
+    """
+    Parse the response from an LLM and extract the main content.
+
+    Args:
+        response (Dict): The response object from the LLM.
+
+    Returns:
+        str: Extracted content (if available).
+    """
+    try:
+        return response["choices"][0]["message"]["content"]
+    except (KeyError, IndexError):
+        return "Error: Unable to parse response."
+
+
+def calculate_token_usage(text: str, token_length: int = 4) -> int:
+    """
+    Estimate token usage for a given text (basic approximation).
+
+    Args:
+        text (str): The text to estimate token count for.
+        token_length (int): Average token length (default: 4 characters per token).
+
+    Returns:
+        int: Estimated token count.
+    """
+    return len(text) // token_length
+
+
+def validate_prompt_length(prompt: str, max_tokens: int) -> bool:
+    """
+    Validate whether a prompt fits within the token limit.
+
+    Args:
+        prompt (str): The input prompt.
+        max_tokens (int): The maximum allowable tokens.
+
+    Returns:
+        bool: True if the prompt is valid, False otherwise.
+    """
+    return calculate_token_usage(prompt) <= max_tokens
