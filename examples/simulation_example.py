@@ -29,6 +29,14 @@ for step in range(3):  # Simulate 3 steps
     env.step()
     env.render()
 
+    # Check if agents have reached the goal
+    if agent1.position == agent2.position:
+        print(f"Agents have reached the goal at step {step + 1}")
+        break
+    # Print final state
+    print(f"Agent1 position: {agent1.position}")
+    print(f"Agent2 position: {agent2.position}")
+
 # Visualize
 visualizer = SimulationVisualizer(env)
 visualizer.visualize_grid()  # Show grid as a visual graph
