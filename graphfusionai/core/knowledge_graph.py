@@ -78,7 +78,7 @@ class KnowledgeGraph(nn.Module):
         
         # Apply attention mechanism
         attended_context, attention_weights = self.attention(
-            query,
+            query_entity.unsqueeze(0),
             context.unsqueeze(0),
             context.unsqueeze(0)
         )
