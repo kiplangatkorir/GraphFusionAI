@@ -91,8 +91,21 @@ def validate_prompt_length(prompt: str, max_tokens: int) -> bool:
     """
     return calculate_token_usage(prompt) <= max_tokens
 
+def parse_response(response) -> str:
+    """
+    Extract the assistant's message content from a chat response.
+    """
+    return response["choices"][0]["message"]["content"]
 
-text = "This is a sample text."
-tokens = calculate_token_usage(text)
-print(f"Estimated tokens: {tokens}")
+def get_llm_instance(model_name: str, **kwargs):
+    """
+    Placeholder for loading a specific LLM instance.
+    """
+    raise NotImplementedError("get_llm_instance is not implemented.")
+
+def load_model(model_name: str, config: dict):
+    """
+    Placeholder for loading a pre-trained model.
+    """
+    raise NotImplementedError("load_model is not implemented.")
 

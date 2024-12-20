@@ -2,96 +2,49 @@
 gpt_adapter.py
 Adapter for interacting with OpenAI GPT models.
 """
-
-import openai
+import os
+import sys
 from typing import List, Dict, Optional
+from openai import OpenAI
+
+openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from llm_integration.llm_tools import truncate_prompt, construct_chat_prompt, parse_response
 
-
+#Just a Placeholder for now. Will be updated later
 class GPTAdapter:
-    """
-    Adapter for handling interactions with OpenAI GPT models.
-    """
-
-    def __init__(self, api_key: str, model: str = "gpt-4", max_tokens: int = 4096):
-        """
-        Initialize the GPTAdapter.
-
-        Args:
-            api_key (str): OpenAI API key.
-            model (str): Model to use (default: "gpt-4").
-            max_tokens (int): Maximum token limit for requests (default: 4096).
-        """
+    def __init__(self, api_key: str, engine: str = "gpt4-large"):
         openai.api_key = api_key
-        self.model = model
-        self.max_tokens = max_tokens
-
-    def send_prompt(
+        self.engine = engine
+        def generate_response(
         self,
         prompt: str,
+        max_tokens: int = 100,
+        stop_sequence: Optional[str] = None,
         temperature: float = 0.7,
-        top_p: float = 1.0,
-        max_response_tokens: int = 512
-    ) -> Optional[str]:
-        """
-        Send a text-based prompt to the GPT model.
-
-        Args:
-            prompt (str): The input prompt.
-            temperature (float): Sampling temperature for response randomness (default: 0.7).
-            top_p (float): Probability threshold for nucleus sampling (default: 1.0).
-            max_response_tokens (int): Maximum tokens for the response (default: 512).
-
-        Returns:
-            Optional[str]: The response content, or None if the request fails.
-        """
-        truncated_prompt = truncate_prompt(prompt, self.max_tokens - max_response_tokens)
-        
-        try:
+        n: int = 1,
+        logprobs: int = 10,
+        presence_penalty: float = 0.0,
+        frequency_penalty: float = 0.0,
+        best_of: int = 1,
+        echo: bool = False,
+    ) -> List[Dict[str, str]]:
+            
+            prompt = truncate_prompt(prompt, max_tokens)
+            prompt = construct_chat_prompt(prompt, stop_sequence)
             response = openai.Completion.create(
-                model=self.model,
-                prompt=truncated_prompt,
+                engine=self.engine,
+                prompt=prompt,
+                max_tokens=max_tokens,
                 temperature=temperature,
-                top_p=top_p,
-                max_tokens=max_response_tokens,
-                n=1
-            )
-            return response["choices"][0]["text"].strip()
-        except Exception as e:
-            print(f"Error during GPT request: {e}")
-            return None
-
-    def send_chat(
-        self,
-        chat_history: List[Dict[str, str]],
-        temperature: float = 0.7,
-        top_p: float = 1.0,
-        max_response_tokens: int = 512
-    ) -> Optional[str]:
-        """
-        Send a conversation-style input to the GPT model.
-
-        Args:
-            chat_history (List[Dict[str, str]]): The conversation history as a list of dictionaries.
-            temperature (float): Sampling temperature for response randomness (default: 0.7).
-            top_p (float): Probability threshold for nucleus sampling (default: 1.0).
-            max_response_tokens (int): Maximum tokens for the response (default: 512).
-
-        Returns:
-            Optional[str]: The assistant's response content, or None if the request fails.
-        """
-        formatted_history = construct_chat_prompt(chat_history)
-        
-        try:
-            response = openai.ChatCompletion.create(
-                model=self.model,
-                messages=formatted_history,
-                temperature=temperature,
-                top_p=top_p,
-                max_tokens=max_response_tokens,
-                n=1
+                n=n,
+                logprobs=logprobs,
+                presence_penalty=presence_penalty,
+                frequency_penalty=frequency_penalty,
+                best_of=best_of,
+                echo=echo,
             )
             return parse_response(response)
-        except Exception as e:
-            print(f"Error during GPT chat request: {e}")
-            return None
+        
+ 
