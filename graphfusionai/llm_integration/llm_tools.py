@@ -109,3 +109,10 @@ def load_model(model_name: str, config: dict):
     """
     raise NotImplementedError("load_model is not implemented.")
 
+# Load the model
+model = load_model("gpt2")
+
+# Generate text
+prompt = "In the world of AI, "
+generated_text = construct_chat_prompt(model, prompt)
+print("Generated Text:", generated_text)
