@@ -90,3 +90,9 @@ def validate_prompt_length(prompt: str, max_tokens: int) -> bool:
         bool: True if the prompt is valid, False otherwise.
     """
     return calculate_token_usage(prompt) <= max_tokens
+
+
+text = "This is a sample text."
+tokens = calculate_token_usage(text)
+print(f"Estimated tokens: {tokens}")
+
