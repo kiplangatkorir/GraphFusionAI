@@ -1,6 +1,10 @@
 from .base_agent import BaseAgent
 
 class WorkerAgent(BaseAgent):
+    def __init__(self, name, graph_network, knowledge_graph, action_dim):
+        super().__init__(name, graph_network, knowledge_graph)  # Initialize BaseAgent
+        self.action_dim = action_dim  # New attribute for WorkerAgent
+
     def process_input(self, input_data: str) -> None:
         """
         Processes specific tasks using the provided data.
