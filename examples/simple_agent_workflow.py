@@ -4,7 +4,8 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import torch
-from graphfusionai.agents import WorkerAgent, ManagerAgent
+from graphfusionai.agents.worker_agent import WorkerAgent
+from graphfusionai.agents.manager_agent import ManagerAgent
 from graphfusionai.core.graph import GraphNetwork
 
 def main():
@@ -19,45 +20,41 @@ def main():
     graph = GraphNetwork(feature_dim=input_dim, hidden_dim=memory_dim)
 
     # Create manager agent
-    manager = ManagerAgent(input_dim, memory_dim, context_dim, n_workers)
+    name = "manager"
+    graph_network = graph
+    knowledge_graph = None  # Use your actual KnowledgeGraph if available
+    manager = ManagerAgent(name, graph_network, knowledge_graph, n_workers)
 
     # Create worker agents
     workers = [
-        WorkerAgent(input_dim, memory_dim, context_dim, action_dim)
-        for _ in range(n_workers)
+        WorkerAgent(f"worker_{i}", graph_network, knowledge_graph, action_dim)
+        for i in range(n_workers)
     ]
 
-    # Add agents to graph
-    manager_node = graph.add_node("manager")
-    worker_nodes = []
+    # Add agents to the graph
+    graph.add_node("manager", {"type": "manager"})
     for i, worker in enumerate(workers):
-        worker_node = graph.add_node(f"worker_{i}")
-        worker_nodes.append(worker_node)
+        graph.add_node(f"worker_{i}", {"type": "worker"})
         graph.add_edge("manager", f"worker_{i}", edge_type="manages")
 
     # Simulation loop
     for step in range(100):
-        # Generate some observation
+        # Generate some observation (simulated input data)
         observation = torch.randn(input_dim)
 
-        # Manager processes observation and assigns tasks
-        manager_state, _ = manager.process_observation(observation)
-        task_assignments = manager.decide_action(manager_state)
+        # Manager assigns tasks
+        tasks = [torch.randn(context_dim) for _ in range(n_workers)]
 
-        # Workers process their assigned tasks
-        worker_states = []
-        worker_actions = []
-        for worker, assignment in zip(workers, task_assignments):
-            worker_obs = torch.cat([observation, assignment.unsqueeze(0)])
-            worker_state, _ = worker.process_observation(worker_obs)
-            worker_states.append(worker_state)
-            action = worker.decide_action(worker_state)
-            worker_actions.append(action)
+        # Workers process tasks
+        worker_responses = []
+        for worker, task in zip(workers, tasks):
+            worker.process_input(f"Task: {task}")
+            action = worker.decide(f"Task: {task}")
+            worker_responses.append(action)
 
-        # Manager processes worker states
-        attended_states, attention = manager.process_worker_states(worker_states)
-
-        # Here you would implement environment interaction and rewards
+        # Manager collects responses
+        for response in worker_responses:
+            print(f"[Manager] Received response: {response}")
 
 if __name__ == "__main__":
     main()
