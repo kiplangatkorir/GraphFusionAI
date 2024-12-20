@@ -1,7 +1,10 @@
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from typing import Any, Dict, List, Optional
 from graphfusionai.core.graph import GraphNetwork
 from graphfusionai.core.knowledge_graph import KnowledgeGraph
-from graphfusionai.core.dynamicmemory_cell import DynamicMemoryCell
+from graphfusionai.core.memory_cell import DynamicMemoryCell
 import torch
 
 class BaseAgent:
