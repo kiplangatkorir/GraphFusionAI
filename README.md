@@ -1,10 +1,14 @@
+
+  
+![graph-fusion-logo](https://github.com/user-attachments/assets/de5a4a09-a7e4-4b21-b3ec-01d5a3097ecd)
+
 </p>
 <h1 align="center" weight='300'>GraphFusionAI: A toolkit for graph-based AI agents and multi-agent systems</h1>
 <h3 align="center" weight='300'>Empowering AI with Persistent, Reliable, and Queryable Memory</h3>
 <div align="center">
 
   [![GitHub release](https://img.shields.io/badge/Github-Release-blue)](https://github.com/GraphFusion/GraphFusion-NMN/releases)
-  [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/GraphFusion/GraphFusion/blob/main/LICENSE)
+  [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/GraphFusion/GraphFusion/blob/main/LICENSE)
   [![Join us on Teams](https://img.shields.io/badge/Join-Teams-blue)](https://teams.microsoft.com/)
   [![Discord Server](https://img.shields.io/badge/Discord-Server-blue)](https://discord.gg/zK94WvRjZT)
 
@@ -15,9 +19,7 @@
 </h3>
 <br />
 
-# GraphFusionAI
-
-GraphFusionAI is an open-source framework for building **adaptive multi-agent systems** using the power of **knowledge graphs** and **neural memory networks**. It provides a foundation for creating collaborative, real-time learning agents capable of dynamic task orchestration and semantic understanding.  
+**GraphFusionAI** is an open-source framework for building **adaptive multi-agent systems** using the power of **knowledge graphs** and **neural memory networks**. It provides a foundation for creating collaborative, real-time learning agents capable of dynamic task orchestration and semantic understanding.  
 
 The project is designed for modularity and accessibility, enabling developers to build **graph-based AI agents** and **multi-agent systems** across industries like **healthcare**, **finance**, **education**, and more.
 
