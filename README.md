@@ -27,8 +27,6 @@ The project is designed for modularity and accessibility, enabling developers to
 
 - **Graph-Based Memory**: Combines structured knowledge graphs with neural memory for adaptable and queryable agent memory.
 - **Multi-Agent Collaboration**: Supports dynamic task orchestration and collaboration between AI agents.
-- **Real-Time Adaptability**: Self-healing mechanisms and context-aware decision-making in dynamic environments.
-- **Open-Source Focus**: Actively maintained, modular, and open for contributions to shape its evolution.
 - **Integrations with LLMs**: Expandable with large language model tools for enhanced capabilities.
 
 ## Getting Started
