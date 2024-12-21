@@ -4,7 +4,6 @@
 
 </p>
 <h1 align="center" weight='300'>GraphFusionAI: A toolkit for graph-based AI agents and multi-agent systems</h1>
-<h3 align="center" weight='300'>Empowering AI with Persistent, Reliable, and Queryable Memory</h3>
 <div align="center">
 
   [![GitHub release](https://img.shields.io/badge/Github-Release-blue)](https://github.com/GraphFusion/GraphFusion-NMN/releases)
