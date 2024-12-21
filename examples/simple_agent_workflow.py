@@ -8,7 +8,7 @@ from graphfusionai.agents.manager_agent import ManagerAgent
 from graphfusionai.core.graph import GraphNetwork
 
 def main():
-    # Initialize dimensions
+    # Initializing dimensions
     input_dim = 64
     memory_dim = 128
     context_dim = 96

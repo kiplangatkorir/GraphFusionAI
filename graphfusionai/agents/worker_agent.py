@@ -23,3 +23,6 @@ class WorkerAgent(BaseAgent):
         Communicates with another agent.
         """
         print(f"[Worker {self.name}] Sending message to {other_agent.name}: {message}")
+    def complete_task(self):
+        self.is_available = True
+        print(f"[{self.name}] Task completed and ready for new task!")

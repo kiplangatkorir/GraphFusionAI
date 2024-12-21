@@ -1,4 +1,3 @@
-# graphfusionai/core/graph.py
 import torch
 import torch.nn as nn
 import networkx as nx
@@ -30,7 +29,6 @@ class GraphNetwork(nn.Module):
         self.feature_dim = feature_dim
         self.hidden_dim = hidden_dim
         
-        # Neural network components
         self.node_update = nn.GRUCell(feature_dim, hidden_dim)
         self.message_net = nn.Sequential(
             nn.Linear(hidden_dim * 2, hidden_dim),
@@ -39,7 +37,6 @@ class GraphNetwork(nn.Module):
         )
         self.attention = nn.MultiheadAttention(hidden_dim, num_heads=4)
         
-        # Node storage
         self.nodes: Dict[str, GraphNode] = {}
         self.node_states: Dict[str, torch.Tensor] = {}
 
@@ -64,22 +61,18 @@ class GraphNetwork(nn.Module):
     def message_passing(self) -> Dict[str, torch.Tensor]:
         new_states = {}
         for node_id, node in self.nodes.items():
-            # Collect neighbor states
             in_neighbors = list(self.graph.predecessors(node_id))
             if not in_neighbors:
                 new_states[node_id] = self.node_states[node_id]
                 continue
 
-            # Prepare states for attention
             neighbor_states = torch.stack([self.node_states[n] for n in in_neighbors])
             query = self.node_states[node_id].unsqueeze(0).unsqueeze(0)
             key = value = neighbor_states.unsqueeze(0)
 
-            # Apply attention
             attended_states, _ = self.attention(query, key, value)
             attended_states = attended_states.squeeze(0).squeeze(0)
 
-            # Update node state
             new_states[node_id] = self.node_update(
                 attended_states,
                 self.node_states[node_id]
@@ -89,7 +82,6 @@ class GraphNetwork(nn.Module):
         return new_states
 
     def forward(self, node_inputs: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
-        # Update node states with inputs
         for node_id, input_tensor in node_inputs.items():
             if node_id in self.node_states:
                 self.node_states[node_id] = self.node_update(
@@ -97,5 +89,4 @@ class GraphNetwork(nn.Module):
                     self.node_states[node_id]
                 )
 
-        # Perform message passing
         return self.message_passing()
