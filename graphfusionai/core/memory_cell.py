@@ -1,4 +1,3 @@
-# graphfusionai/core/dynamicmemory_cell.py
 import torch
 import torch.nn as nn
 from typing import Optional, Tuple
@@ -11,7 +10,6 @@ class DynamicMemoryCell(nn.Module):
         self.input_projection = nn.Linear(input_dim, context_dim)
         self.memory_projection = nn.Linear(memory_dim, context_dim)
         
-        # Additional components for enhanced memory operations
         self.forget_gate = nn.Linear(memory_dim + input_dim, memory_dim)
         self.output_gate = nn.Linear(memory_dim, memory_dim)
         
