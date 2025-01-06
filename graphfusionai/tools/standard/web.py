@@ -13,3 +13,4 @@ class WebTool(BaseTool):
 
 # Register the tool
 ToolRegistry.register_tool("web", WebTool)
+
