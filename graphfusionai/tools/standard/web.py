@@ -1,6 +1,6 @@
 import requests
-from tools.base import BaseTool
-from tools.registry import ToolRegistry
+from graphfusionai.tools.base import BaseTool
+from graphfusionai.tools.registry import ToolRegistry
 
 class WebTool(BaseTool):
     """
