@@ -2,10 +2,10 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from typing import Any, Dict, Type, Union
-from graphfusion.agents.base_agent import BaseAgent
-from graphfusion.core.graph import GraphNetwork
-from graphfusion.core.knowledge_graph import KnowledgeGraph
-from graphfusion.core.memory_cell import DynamicMemoryCell
+from graphfusionai.agents.base_agent import BaseAgent
+from graphfusionai.core.graph import GraphNetwork
+from graphfusionai.core.knowledge_graph import KnowledgeGraph
+from graphfusionai.core.memory_cell import DynamicMemoryCell
 from builder.validators import validate_config
 
 class AgentBuilder:
