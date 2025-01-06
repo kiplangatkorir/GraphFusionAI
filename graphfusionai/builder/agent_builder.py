@@ -60,6 +60,6 @@ class AgentBuilder:
             graph_network=self.graph_network,
             knowledge_graph=self.knowledge_graph
         )
-        agent.memory_cell = memory_cell  # Attach custom memory cell
+        agent.memory_cell = memory_cell  
 
         return agent
