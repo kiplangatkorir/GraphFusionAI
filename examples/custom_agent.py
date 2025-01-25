@@ -6,6 +6,7 @@ from graphfusionai.builder import AgentBuilder
 from graphfusionai.agents.support_agent import SupportAgent
 from graphfusionai.core.graph import GraphNetwork
 from graphfusionai.core.knowledge_graph import KnowledgeGraph
+from graphfusionai.tools.registry import ToolRegistry
 
 # Define dimensions
 feature_dim = 128      
