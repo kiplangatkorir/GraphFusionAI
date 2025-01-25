@@ -58,3 +58,4 @@ class EmailTool(BaseTool):
 
 from graphfusionai.tools.registry import ToolRegistry
 ToolRegistry.register_tool("email", EmailTool)
+email_tool = ToolRegistry.get_tool("email")()
