@@ -7,10 +7,12 @@ from graphfusionai.core.graph import GraphNetwork
 from graphfusionai.core.knowledge_graph import KnowledgeGraph
 from graphfusionai.core.memory_cell import DynamicMemoryCell
 from builder.validators import validate_config
+from graphfusionai.tools.registry import ToolRegistry
 
 class AgentBuilder:
     """
-    A builder for dynamically creating agents based on specifications.
+    A builder for dynamically creating agents based on specifications, 
+    including tools.
     """
 
     def __init__(self, graph_network: GraphNetwork, knowledge_graph: KnowledgeGraph):
@@ -24,13 +26,14 @@ class AgentBuilder:
         self.graph_network = graph_network
         self.knowledge_graph = knowledge_graph
 
-    def create_agent(self, 
-                     agent_type: Type[BaseAgent], 
-                     name: str, 
-                     config: Dict[str, Any]
-                    ) -> Union[BaseAgent, None]:
+    def create_agent(
+        self,
+        agent_type: Type[BaseAgent],
+        name: str,
+        config: Dict[str, Any]
+    ) -> Union[BaseAgent, None]:
         """
-        Dynamically creates an agent of the specified type.
+        Dynamically creates an agent of the specified type with memory and tools.
 
         Args:
             agent_type (Type[BaseAgent]): The class type for the agent.
@@ -39,14 +42,12 @@ class AgentBuilder:
 
         Returns:
             BaseAgent: An initialized agent instance.
-        
+
         Raises:
-            ValueError: If the configuration is invalid or missing keys.
+            ValueError: If the configuration is invalid or tools are missing.
         """
-        # Validate agent configuration
         validate_config(config)
 
-        # Extract memory configuration
         memory_config = config.get("memory", {})
         memory_cell = DynamicMemoryCell(
             input_dim=memory_config.get("input_dim", 256),
@@ -54,12 +55,19 @@ class AgentBuilder:
             context_dim=memory_config.get("context_dim", 128)
         )
 
-        # Initialize and return the agent instance
         agent = agent_type(
             name=name,
             graph_network=self.graph_network,
             knowledge_graph=self.knowledge_graph
         )
-        agent.memory_cell = memory_cell  
+        agent.memory_cell = memory_cell
+
+        tools = config.get("tools", [])
+        for tool_name in tools:
+            tool = ToolRegistry.get_tool(tool_name)
+            if not tool:
+                raise ValueError(f"Invalid tool name: '{tool_name}'")
+            agent.add_tool(tool())
 
         return agent
+
