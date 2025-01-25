@@ -9,7 +9,7 @@ from graphfusionai.tools.base import BaseTool
 from graphfusionai.tools.registry import ToolRegistry
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(encoding='utf-8')
 
 class EmailTool(BaseTool):
     def __init__(self):
