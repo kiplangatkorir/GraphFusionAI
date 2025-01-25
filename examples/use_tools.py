@@ -20,7 +20,7 @@ file_tool = ToolRegistry.get_tool("file")()
 web_result = web_tool.execute("https://msingi-ai.github.io/")
 print("Web Result:", web_result[:100])  # Print first 100 chars
 
-email_result = email_tool.execute("korirkiplangat22@gmail.com", "Hello", "This is a test email.")
+email_result = email_tool.execute("korirg543@gmail.com", "Hello", "This is a test email.")
 print("Email Result:", email_result)
 
 file_result = file_tool.execute("write", "sample.txt", "Hello, GraphFusion!")
