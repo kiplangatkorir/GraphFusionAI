@@ -21,12 +21,11 @@ class EmailTool(BaseTool):
             str: A success or failure message.
         """
         
-        sender_email = "youremail@example.com"  # Replace with your actual sender email
-        sender_password = "yourpassword"  # Replace with your actual sender email password
+        sender_email = "korirkiplangat22@gmail.com"  # Replace with the actual sender email
+        sender_password = "K0rir@2020!"  # Replace with your actual sender email password
         smtp_server = "smtp.gmail.com"  # Example for Gmail
         smtp_port = 587
         
-        # Create message
         msg = MIMEMultipart()
         msg['From'] = sender_email
         msg['To'] = recipient
@@ -34,7 +33,6 @@ class EmailTool(BaseTool):
         msg.attach(MIMEText(message, 'plain'))
         
         try:
-            # Connect to SMTP server and send the email
             with smtplib.SMTP(smtp_server, smtp_port) as server:
                 server.starttls()
                 server.login(sender_email, sender_password)
@@ -44,6 +42,5 @@ class EmailTool(BaseTool):
         except Exception as e:
             return f"Failed to send email to {recipient}. Error: {str(e)}"
 
-# Register the tool
 from graphfusionai.tools.registry import ToolRegistry
 ToolRegistry.register_tool("email", EmailTool)
