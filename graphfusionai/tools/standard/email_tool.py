@@ -28,8 +28,12 @@ class EmailTool(BaseTool):
             str: A success or failure message.
         """
         
-        sender_email = "korirkiplangat22@gmail.com"  # Replace with the actual sender email
-        sender_password = "dtwc phhq mdrm hfbv"
+        sender_email = os.getenv("EMAIL_USER")
+        sender_password = os.getenv("EMAIL_PASSWORD")
+
+        if not sender_email or not sender_password:
+            return "Error: Email credentials are missing."
+        
         smtp_server = "smtp.gmail.com"  # Example for Gmail
         smtp_port = 587
         
