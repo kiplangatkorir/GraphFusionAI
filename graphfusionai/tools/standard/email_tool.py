@@ -26,7 +26,7 @@ class EmailTool(BaseTool):
         """
         
         sender_email = "korirkiplangat22@gmail.com"  # Replace with the actual sender email
-        sender_password = "K0rir@2020!"  # Replace with your actual sender email password
+        sender_password = "dtwc phhq mdrm hfbv"
         smtp_server = "smtp.gmail.com"  # Example for Gmail
         smtp_port = 587
         
