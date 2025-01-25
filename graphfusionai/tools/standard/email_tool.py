@@ -7,6 +7,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from graphfusionai.tools.base import BaseTool
 from graphfusionai.tools.registry import ToolRegistry
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class EmailTool(BaseTool):
     def __init__(self):
