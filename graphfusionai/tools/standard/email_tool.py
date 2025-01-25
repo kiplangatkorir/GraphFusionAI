@@ -9,7 +9,10 @@ from graphfusionai.tools.base import BaseTool
 from graphfusionai.tools.registry import ToolRegistry
 from dotenv import load_dotenv
 
-load_dotenv(encoding='utf-8')
+load_dotenv()
+
+email_user = os.getenv("EMAIL_USER")
+email_password = os.getenv("EMAIL_PASSWORD")
 
 class EmailTool(BaseTool):
     def __init__(self):
