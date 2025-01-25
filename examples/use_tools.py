@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from graphfusionai.tools.registry import ToolRegistry
 from graphfusionai.tools.standard.web import WebTool
-from graphfusionai.tools.standard.email import EmailTool
+from graphfusionai.tools.standard.email_tool import EmailTool
 from graphfusionai.tools.standard.file import FileTool
 
 # Register tools
