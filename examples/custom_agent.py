@@ -2,34 +2,31 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from graphfusionai.agents.base_agent import BaseAgent
+from graphfusionai.builder import AgentBuilder
+from graphfusionai.agents.support_agent import SupportAgent
+from graphfusionai.core.graph import GraphNetwork
+from graphfusionai.core.knowledge_graph import KnowledgeGraph
 
-class SupportAgent(BaseAgent):
-    """
-    A support agent that uses memory and tools to assist users.
-    """
-    def __init__(self, name: str, graph_network, knowledge_graph):
-        super().__init__(name, graph_network, knowledge_graph)
-        self.tools = []  # Initialize an empty list of tools
+# Define dimensions
+feature_dim = 128      
+hidden_dim = 256       
+entity_dim = 64       
+relation_dim = 32       
 
-    def add_tool(self, tool):
-        """
-        Add a tool to the agent's toolset.
-        
-        Args:
-            tool (BaseTool): An instance of a tool to add.
-        """
-        self.tools.append(tool)
+graph_network = GraphNetwork(feature_dim=feature_dim, hidden_dim=hidden_dim)
+knowledge_graph = KnowledgeGraph(entity_dim=entity_dim, relation_dim=relation_dim)
 
-    def respond(self, query: str) -> str:
-        """
-        Respond to a user query using knowledge and tools.
+config = {
+    "memory": {
+        "input_dim": 128,
+        "memory_dim": 256,
+        "context_dim": 64
+    },
+    "tools": ["email", "web"]
+}
 
-        Args:
-            query (str): The query to respond to.
+builder = AgentBuilder(graph_network, knowledge_graph)
+agent = builder.create_agent(SupportAgent, "CustomerSupportAgent", config)
 
-        Returns:
-            str: The agent's response.
-        """
-        # Custom response logic for the support agent
-        return f"{self.name} responding to query: {query}"
+# Validate tool integration
+print(agent.tools)  # Should display the attached tool objects.
